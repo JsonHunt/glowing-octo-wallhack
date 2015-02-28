@@ -1,0 +1,63 @@
+doctype html
+html(ng-app='CallFanout')
+	head
+		title= 'Call Fanout Application'
+		link(rel='stylesheet', href='/stylesheets/style.css')
+		link(rel='stylesheet', href='index.css')
+		link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css')
+	body.noselect(ng-controller='IndexController',ng-cloak)
+		h2 Call Fanout Administration v1.2
+		
+		div.panel
+			div.header 
+				div.title Lists
+				div.icons
+					i.fa.fa-plus(ng-click='newList()')
+			div.body
+				div.list
+					div.item(ng-repeat='list in lists track by $index', ng-click='selectList(list)', ng-class='{selected: selectedList == list}') {{list.name}}
+					div.no-records(ng-show='lists.length == 0') No lists defined
+				
+		div.panel(ng-if='selectedList')
+			div.header
+				input.title(ng-model='selectedList.name')
+				button(ng-click='saveList()') Save
+				div.icons
+					i.fa.fa-trash(ng-click='deleteList()')
+					i.fa.fa-user-plus(ng-click='newPerson()')
+			div.body
+				div.list
+					div.item(ng-repeat='p in people track by $index', ng-class='{selected: selectedPerson == p}', ng-click='selectPerson(p)') 
+						input(type='checkbox',ng-model='p.checked' ng-click='togglePerson(p,$event)') 					
+						label {{p.name}} {{p.number}}
+						
+				div.no-records(ng-show='people.length == 0') No people
+		
+		div.panel(ng-if='selectedPerson')
+			div.header 
+				div.title Person Details
+				div.icons
+					i.fa.fa-trash(ng-click='deletePerson()')
+			div.body 
+				div.form
+					div.item
+						label Name:
+						input(ng-model='selectedPerson.name')
+					div.item
+						label Number:
+						input(ng-model='selectedPerson.number')
+					div.item
+						button(ng-click='savePerson()') Save
+				
+		div.disabled.errors(ng-if='error') {{error}}
+			i.close-icon.fa.fa-close.fa-lg(ng-click='closeErrors()')
+		
+		script(type='text/javascript', src='lib/underscore-min.js')
+		script(type='text/javascript', src='//code.jquery.com/jquery-1.11.2.min.js') 
+		script(type='text/javascript', src='//code.jquery.com/jquery-migrate-1.2.1.min.js') 
+		script(type='text/javascript', src='https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js')
+		script(type='text/javascript', src='lib/angular-route.min.js')
+		script(type='text/javascript', src='index.js')
+		
+		
+		

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html ng-app="CallFanout">
+  <head>
+    <title>Call Fanout Application</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  </head>
+  <body ng-controller="IndexController" ng-cloak class="noselect">
+    <h2>Call Fanout Administration v1.2</h2>
+    <div class="panel">
+      <div class="header"> 
+        <div class="title">Lists</div>
+        <div class="icons"><i ng-click="newList()" class="fa fa-plus"></i></div>
+      </div>
+      <div class="body">
+        <div class="list">
+          <div ng-repeat="list in lists track by $index" ng-click="selectList(list)" ng-class="{selected: selectedList == list}" class="item">{{list.name}}</div>
+          <div ng-show="lists.length == 0" class="no-records">No lists defined</div>
+        </div>
+      </div>
+    </div>
+    <div ng-if="selectedList" class="panel">
+      <div class="header">
+        <input ng-model="selectedList.name" class="title">
+        <button ng-click="saveList()">Save</button>
+        <div class="icons"><i ng-click="deleteList()" class="fa fa-trash"></i><i ng-click="newPerson()" class="fa fa-user-plus"></i></div>
+      </div>
+      <div class="body">
+        <div class="list">
+          <div ng-repeat="p in people track by $index" ng-class="{selected: selectedPerson == p}" ng-click="selectPerson(p)" class="item"> 
+            <input type="checkbox" ng-model="p.checked" ng-click="togglePerson(p,$event)">
+            <label>{{p.name}} {{p.number}}</label>
+          </div>
+        </div>
+        <div ng-show="people.length == 0" class="no-records">No people</div>
+      </div>
+    </div>
+    <div ng-if="selectedPerson" class="panel">
+      <div class="header"> 
+        <div class="title">Person Details</div>
+        <div class="icons"><i ng-click="deletePerson()" class="fa fa-trash"></i></div>
+      </div>
+      <div class="body"> 
+        <div class="form">
+          <div class="item">
+            <label>Name:</label>
+            <input ng-model="selectedPerson.name">
+          </div>
+          <div class="item">
+            <label>Number:</label>
+            <input ng-model="selectedPerson.number">
+          </div>
+          <div class="item">
+            <button ng-click="savePerson()">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div ng-if="error" class="disabled errors">{{error}}<i ng-click="closeErrors()" class="close-icon fa fa-close fa-lg"></i></div>
+    <script type="text/javascript" src="lib/underscore-min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.2.min.js"> </script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"> </script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    <script type="text/javascript" src="lib/angular-route.min.js"></script>
+    <script type="text/javascript" src="index.js"></script>
+  </body>
+</html>
